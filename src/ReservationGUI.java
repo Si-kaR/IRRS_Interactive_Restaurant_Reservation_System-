@@ -45,7 +45,7 @@ public class ReservationGUI extends JFrame {
 
     private void setLookAndFeel() {
         try {
-            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
