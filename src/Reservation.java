@@ -1,8 +1,12 @@
 package src;
 
+import helpers.ReservationDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
 
 public class Reservation implements Comparable<Reservation> {
     private String id;
@@ -56,6 +60,26 @@ public class Reservation implements Comparable<Reservation> {
     public void setTable(Table table){
         this.table = table;
     }
+
+    public ReservationDto ConvertToReservationDto(LocalDate date){
+        return new ReservationDto(
+            this.id,
+            this.customerName,
+            this.time,
+            date,
+            this.numPeople,
+            this.table
+        );
+    }
+
+    public static List<ReservationDto> ConvertToReservationDto(List<Reservation> list,LocalDate date){
+        List<ReservationDto> listDto = new ArrayList<>();
+        for (Reservation reservation : list) {
+            listDto.add(reservation.ConvertToReservationDto(date));
+        }
+        return listDto;
+    }
+
 
     
 }
