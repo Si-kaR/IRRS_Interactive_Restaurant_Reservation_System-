@@ -8,6 +8,7 @@ The IRRS Interactive Restaurant Reservation System is a Java-based simulation de
 - **Reservation Summaries**: Generate text-based summaries for specified dates or ranges.
 
 **Components**
+
 **HashTable**
 A custom implementation of a hash table that maps dates to ReservationLinkedList objects.
 
