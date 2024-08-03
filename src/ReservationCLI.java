@@ -1,5 +1,6 @@
 package src;
 
+import helpers.ReservationDto;
 import static helpers.ReservationFilter.all;
 import helpers.SummaryGenerator;
 import java.time.LocalDate;
@@ -48,6 +49,30 @@ public class ReservationCLI {
                 case 6:
                     addTable();
                     break;
+                case 7:
+                    viewReservationByCustomerName();
+                    break;
+                case 8:
+                    viewReservationByTable();
+                    break;
+                case 9:
+                    viewReservationByDate();
+                    break;
+                case 10:
+                    viewReservationsByCustomerNameAndTable();
+                    break;
+                case 11:
+                    viewCustomerNameByTableAndDate();
+                    break;
+                case 12:
+                    viewReservationsByCustomerNameAndDate();
+                    break;
+                case 13:
+                    viewReservationsByCustomerName();
+                    break;
+                case 14:
+                    viewReservationsByCustomerNameTableAndDate();
+                    break;
                 case 0:
                     System.out.println("Exiting...");
                     scanner.close();
@@ -66,6 +91,14 @@ public class ReservationCLI {
         System.out.println("4. View daily summary");
         System.out.println("5. View date range summary");
         System.out.println("6. Add a table");
+        System.out.println("7. View Reservation by Customer Name");
+        System.out.println("8. View Reservation by Table");
+        System.out.println("9. View Reservation by Date");
+        System.out.println("10. View Reservations by Customer Name and Table");
+        System.out.println("11. View Customer Name by Table and Date");
+        System.out.println("12. View Reservations by Customer Name and Date");
+        System.out.println("13. View Reservations by Customer Name");
+        System.out.println("14. View Reservations by Customer Name, Table, and Date");
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
     }
@@ -96,7 +129,7 @@ public class ReservationCLI {
         System.out.print("Enter table ID: ");
         int tableId = Integer.parseInt(scanner.nextLine());
 
-        Table table = reservationSystem.getTableById(tableId); // You need to implement this method in ReservationSystem
+        Table table = reservationSystem.getTableById(tableId);
         if (table != null && reservationSystem.cancelReservation(reservationId, date, table)) {
             System.out.println("Reservation cancelled successfully.");
         } else {
@@ -142,5 +175,87 @@ public class ReservationCLI {
 
         reservationSystem.addTable(id, capacity);
         System.out.println("Table added successfully.");
+    }
+
+    private void viewReservationByCustomerName() {
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine();
+        List<ReservationDto> reservations = reservationSystem.viewReservations(r -> r.getCustomerName().equals(customerName));
+        printReservations(reservations);
+    }
+
+    private void viewReservationByTable() {
+        System.out.print("Enter table ID: ");
+        int tableId = Integer.parseInt(scanner.nextLine());
+        Table table = reservationSystem.getTableById(tableId);
+        List<ReservationDto> reservations = reservationSystem.viewReservations(all(), table);
+        printReservations(reservations);
+    }
+
+    private void viewReservationByDate() {
+        System.out.print("Enter date (YYYY-MM-DD): ");
+        LocalDate date = LocalDate.parse(scanner.nextLine());
+        List<ReservationDto> reservations = reservationSystem.viewReservations(all(), date);
+        printReservations(reservations);
+    }
+
+    private void viewReservationsByCustomerNameAndTable() {
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine();
+        System.out.print("Enter table ID: ");
+        int tableId = Integer.parseInt(scanner.nextLine());
+        Table table = reservationSystem.getTableById(tableId);
+        List<ReservationDto> reservations = reservationSystem.viewReservations(r -> r.getCustomerName().equals(customerName), table);
+        printReservations(reservations);
+    }
+
+    private void viewCustomerNameByTableAndDate() {
+        System.out.print("Enter table ID: ");
+        int tableId = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter date (YYYY-MM-DD): ");
+        LocalDate date = LocalDate.parse(scanner.nextLine());
+        Table table = reservationSystem.getTableById(tableId);
+        List<Reservation> reservations = reservationSystem.viewReservations(date, table);
+        for (Reservation reservation : reservations) {
+            System.out.println("Customer Name: " + reservation.getCustomerName());
+        }
+    }
+
+    private void viewReservationsByCustomerNameAndDate() {
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine();
+        System.out.print("Enter date (YYYY-MM-DD): ");
+        LocalDate date = LocalDate.parse(scanner.nextLine());
+        List<ReservationDto> reservations = reservationSystem.viewReservations(r -> r.getCustomerName().equals(customerName), date);
+        printReservations(reservations);
+    }
+
+    private void viewReservationsByCustomerName() {
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine();
+        List<ReservationDto> reservations = reservationSystem.viewReservations(r -> r.getCustomerName().equals(customerName));
+        printReservations(reservations);
+    }
+
+    private void viewReservationsByCustomerNameTableAndDate() {
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine();
+        System.out.print("Enter table ID: ");
+        int tableId = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter date (YYYY-MM-DD): ");
+        LocalDate date = LocalDate.parse(scanner.nextLine());
+        Table table = reservationSystem.getTableById(tableId);
+        List<ReservationDto> reservations = reservationSystem.viewReservations(r -> r.getCustomerName().equals(customerName), date, table);
+        printReservations(reservations);
+    }
+
+    private void printReservations(List<ReservationDto> reservations) {
+        if (reservations.isEmpty()) {
+            System.out.println("No reservations found.");
+        } else {
+            for (ReservationDto reservation : reservations) {
+                System.out.println(reservation);
+            }
+        }
     }
 }

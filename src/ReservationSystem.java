@@ -136,6 +136,10 @@ public class ReservationSystem {
         return null;
     }
     
+    public ArrayList<Table> getTables(){
+        return (ArrayList<Table>) tables;
+        
+    }
 
     
 
