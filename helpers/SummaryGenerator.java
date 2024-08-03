@@ -36,4 +36,15 @@ public class SummaryGenerator {
 
         return summary.toString();
     }
+
+    public  String Summary(List<ReservationDto> reservations) {
+        StringBuilder summary = new StringBuilder();
+        summary.append("Daily Summary:\n");
+
+        reservations.forEach(reservation -> {
+            summary.append(reservation.getDetails()).append("\n");
+        });
+
+        return summary.toString();
+    }
 }

@@ -37,6 +37,18 @@ public class ReservationSystem {
         return false;
     }
 
+    public boolean cancelReservationById(String reservationId){
+        for(Table table: tables){
+            Set<LocalDate> dates = table.getReservations().keySet();
+            for(LocalDate date: dates){
+                if(cancelReservation(reservationId, date, table)) return true;
+        }
+        }
+        return false;
+    }
+
+
+
     
 
     public List<Table> checkAvailability(LocalDate date, LocalTime time) {

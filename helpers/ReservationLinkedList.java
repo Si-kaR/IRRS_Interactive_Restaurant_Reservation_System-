@@ -12,10 +12,10 @@ public class ReservationLinkedList extends LinkedList<Reservation> {
     @Override
     public boolean add(Reservation reservation) {
         int i = this.getIndex(reservation.getTime());
-        if (i == -1) {
-            super.add(reservation);
-        }else{
-            super.add(i-1,reservation);
+        switch (i) {
+            case -1 -> super.add(reservation);
+            case 0 -> super.add(0,reservation);
+            default -> super.add(i,reservation);
         }
         
         return true;
